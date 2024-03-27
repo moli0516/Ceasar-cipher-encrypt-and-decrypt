@@ -76,12 +76,11 @@ while True:
                 content = f.read()
             else:
                 print("File not exist")
-        if(commandList[0] == "/decrypt"):
-            if(commandList[1] == "2"):
-                content = input("Input the text you want to decrypt: ")
-            decrypt(content, int(commandList[1]))
         else:
-            if(commandList[1] == "2"):
+            if(commandList[0] == "/decrypt"):
                 content = input("Input the text you want to decrypt: ")
-            encrypt(content, int(commandList[1]))
+                decrypt(content, int(commandList[1]))
+            else:
+                content = input("Input the text you want to decrypt: ")
+                encrypt(content, int(commandList[1]))
                 
