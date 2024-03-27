@@ -70,13 +70,16 @@ while True:
         checkHist(record)
     else:
         commandList = command.split(" ")
+        contentBool = true
         if(commandList[1] == "1"):
             if(os.path.exists(commandList[2])):
                 f = open(commandList[2], "r", encoding="utf-8")
                 content = f.read()
+                f.close()
             else:
                 print("File not exist")
-        else:
+                contentBool = false
+        if contentBool:
             if(commandList[0] == "/decrypt"):
                 content = input("Input the text you want to decrypt: ")
                 decrypt(content, int(commandList[1]))
