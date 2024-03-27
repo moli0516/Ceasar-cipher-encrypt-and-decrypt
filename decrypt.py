@@ -24,7 +24,6 @@ def outputProcess(s, type):
         g.close
     else:
         print(s)
-    return 0
 
 def encrypt(s, type):
     return 0
