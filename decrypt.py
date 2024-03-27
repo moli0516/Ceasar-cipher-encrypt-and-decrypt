@@ -3,6 +3,7 @@ import sys
 import datetime
 
 record = []
+print("Caesar cipher encrypt and decrypt service\ntype '/help' for help")
 
 def checkHist(arr):
     for i in range(len(arr)):
@@ -56,8 +57,7 @@ def decrypt(s, type):
     outputProcess(output, type)
 
 while True:
-    print("Caesar cipher encrypt and decrypt service\ntype '/help' for help")
-    command = input()
+    command = input("Command: ")
     if(command == "/quit"):
         sys.exit()
     elif(command == "/help"):
