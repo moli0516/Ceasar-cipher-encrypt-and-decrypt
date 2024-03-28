@@ -1,5 +1,5 @@
-import os
 import sys
+import random
 import datetime
 
 record = []
@@ -22,11 +22,23 @@ def outputProcess(s, type):
         g = open("result.txt", "w")
         g.write(s)
         g.close
+        print("Done!")
     else:
-        print(s)
+        print("Output: " + s)
 
 def encrypt(s, type):
-    return 0
+    k = random.randint(1,25)
+    output = ""
+    for i in range(len(s)):
+        intChar = ord(s[i])
+        if(isLetter(intChar)):
+            if((intChar + k > 122 and isSmall(intChar)) or (intChar + k > 90 and not(isSmall(intChar)))): newAscii = intChar + k - 26
+            else: newAscii = intChar + k
+            output += chr(newAscii)
+        else: output += s[i]
+    time = datetime.datetime.now()
+    record.append(["Encryption", time.strftime("%d/%m/%Y - %H:%M:%S"), s, output])
+    outputProcess(output, type)
 
 def decrypt(s, type):
     output = ""
@@ -52,7 +64,7 @@ def decrypt(s, type):
             output += chr(newAscii)
         else: output += s[i]
     time = datetime.datetime.now()
-    record.append(["Encryption", time.strftime("%d/%m/%Y - %H:%M:%S"), s, output])
+    record.append(["Decryption", time.strftime("%d/%m/%Y - %H:%M:%S"), s, output])
     outputProcess(output, type)
 
 while True:
@@ -70,20 +82,22 @@ while True:
         checkHist(record)
     else:
         commandList = command.split(" ")
-        contentBool = true
+        contentBool = True
         if(commandList[1] == "1"):
-            if(os.path.exists(commandList[2])):
+            try:
                 f = open(commandList[2], "r", encoding="utf-8")
                 content = f.read()
                 f.close()
-            else:
+            except:
                 print("File not exist")
-                contentBool = false
+                contentBool = False
         if contentBool:
             if(commandList[0] == "/decrypt"):
-                content = input("Input the text you want to decrypt: ")
+                if(commandList[1] == "2"):
+                    content = input("Input the text you want to decrypt: ")
                 decrypt(content, int(commandList[1]))
             else:
-                content = input("Input the text you want to decrypt: ")
+                if(commandList[1] == "2"):
+                    content = input("Input the text you want to encrypt: ")
                 encrypt(content, int(commandList[1]))
                 
