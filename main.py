@@ -2,8 +2,6 @@ import sys
 import random
 import datetime
 
-sys.setrecursionlimit(10000)
-
 record = []
 print("Caesar cipher encrypt and decrypt service\ntype '/help' for help")
 
