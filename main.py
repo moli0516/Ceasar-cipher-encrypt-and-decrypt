@@ -3,10 +3,11 @@ import random
 import datetime
 
 record = []
-print("Caesar cipher encrypt and decrypt service\ntype '/help' for help")
 
 f = open("vocab.txt","r")
 vocab = f.read().split("\n")
+
+print("Caesar cipher encrypt and decrypt service\ntype '/help' for help")
 
 def checkHist(arr):
     for i in range(len(arr)):
@@ -19,7 +20,6 @@ def checkVocab(s, type):
         for j in vocab:
             if(i == j):
                 cnt += 1
-                print(i)
                 if(cnt > len(outputVocab) / 6):
                     return True
     decrypt(s, 1, type)
@@ -59,7 +59,7 @@ def encrypt(s, type):
     record.append(["Encryption", time.strftime("%d/%m/%Y - %H:%M:%S"), s, output])
     outputProcess(output, type)
 
-def findDiff(s, type):
+def findDiff(s):
     cnt = [0] * 26
     for i in range(len(s)):
         intChar = ord(s[i])
@@ -74,7 +74,7 @@ def findDiff(s, type):
         if(cnt[i + 1] > cnt[maxIndex] and i != 3): maxIndex = i + 1
     diff = maxIndex - 4
     if(diff < 0) : diff += 26
-    decrypt(s, diff, type)
+    return diff
     
 def decrypt(s, k, type):
     output = ""
@@ -92,7 +92,8 @@ def decrypt(s, k, type):
 
 while True:
     command = input("Command: ")
-    if(command == "/quit"):
+    commandList = command.split(" ")
+    if(commandList[0] == "/quit"):
         sys.exit()
     elif(command == "/help"):
         print("/decrypt <operation type(1 / 2)> <file name> - decrypt the text")
@@ -101,10 +102,9 @@ while True:
         print("/hist - check the operation history in this session")
         print("type 1 - input by the file that you provide and output the text to 'result.txt'")
         print("type 2 - input and output text through terminal")
-    elif(command == "/hist"):
+    elif(commandList[0] == "/hist"):
         checkHist(record)
-    else:
-        commandList = command.split(" ")
+    elif(len(commandList) > 1):
         contentBool = True
         if(commandList[1] == "1"):
             try:
@@ -118,9 +118,8 @@ while True:
             if(commandList[0] == "/decrypt"):
                 if(commandList[1] == "2"):
                     content = input("Input the text you want to decrypt: ")
-                findDiff(content, int(commandList[1]))
-            else:
+                decrypt(content, findDiff(content), int(commandList[1]))
+            elif(commandList[0] == "/encrypt"):
                 if(commandList[1] == "2"):
                     content = input("Input the text you want to encrypt: ")
-                encrypt(content, int(commandList[1]))
-                
+                    encrypt(content, int(commandList[1]))   
