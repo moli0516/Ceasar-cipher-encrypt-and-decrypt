@@ -13,7 +13,7 @@ def checkHist(arr):
     for i in range(len(arr)):
         print("Record " + str(i + 1) + ":\nTime: " + arr[i][1] + "\nOperation Type: " + arr[i][0] + "\nInput: " + arr[i][2] + "\nOutput: " + arr[i][3])
     
-def checkVocab(s, type):
+def checkVocab(s):
     outputVocab = s.split(" ")
     cnt = 0
     for i in outputVocab:
@@ -22,7 +22,7 @@ def checkVocab(s, type):
                 cnt += 1
                 if(cnt > len(outputVocab) / 6):
                     return True
-    decrypt(s, 1, type)
+    return False
 
 def isSmall(k):
     if(k > 96 and k < 123): return True
@@ -45,7 +45,7 @@ def outputProcess(s, type):
     else:
         print("Output: " + s)
 
-def encrypt(s, type):
+def encrypt(s):
     k = random.randint(1,25)
     output = ""
     for i in range(len(s)):
@@ -57,7 +57,7 @@ def encrypt(s, type):
         else: output += s[i]
     time = datetime.datetime.now()
     record.append(["Encryption", time.strftime("%d/%m/%Y - %H:%M:%S"), s, output])
-    outputProcess(output, type)
+    return output
 
 def findDiff(s):
     cnt = [0] * 26
@@ -76,7 +76,7 @@ def findDiff(s):
     if(diff < 0) : diff += 26
     return diff
     
-def decrypt(s, k, type):
+def decrypt(s, k):
     output = ""
     for i in range(len(s)):
         intChar = ord(s[i])
@@ -85,10 +85,11 @@ def decrypt(s, k, type):
             else: newAscii = intChar - k
             output += chr(newAscii)
         else: output += s[i]
-    if(len(output.split(" ")) > 200 or checkVocab(output, type) == True):
+    if(len(output.split(" ")) > 200 or checkVocab(output) == True):
         time = datetime.datetime.now()
         record.append(["Decryption", time.strftime("%d/%m/%Y - %H:%M:%S"), s, output])
-        outputProcess(output, type)
+        return output
+    return decrypt(output, 1)
 
 while True:
     command = input("Command: ")
@@ -118,8 +119,9 @@ while True:
             if(commandList[0] == "/decrypt"):
                 if(commandList[1] == "2"):
                     content = input("Input the text you want to decrypt: ")
-                decrypt(content, findDiff(content), int(commandList[1]))
+                output = decrypt(content, findDiff(content))
             elif(commandList[0] == "/encrypt"):
                 if(commandList[1] == "2"):
                     content = input("Input the text you want to encrypt: ")
-                    encrypt(content, int(commandList[1]))   
+                output = encrypt(content)
+            outputProcess(output, int(commandList[1]))
