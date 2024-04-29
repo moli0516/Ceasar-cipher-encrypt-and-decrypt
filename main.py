@@ -14,7 +14,7 @@ def checkHist(arr):
         print("Record " + str(i + 1) + ":\nTime: " + arr[i][1] + "\nOperation Type: " + arr[i][0] + "\nInput: " + arr[i][2] + "\nOutput: " + arr[i][3])
     
 def checkVocab(s):
-    outputVocab = s.split(" ")
+    outputVocab = s.lower().split(" ")
     cnt = 0
     for i in outputVocab:
         for j in vocab:
@@ -89,7 +89,12 @@ def decrypt(s, k):
         time = datetime.datetime.now()
         record.append(["Decryption", time.strftime("%d/%m/%Y - %H:%M:%S"), s, output])
         return output
-    return decrypt(output, 1)
+    try:
+        return decrypt(output, 1)
+    except:
+        time = datetime.datetime.now()
+        record.append(["Decryption", time.strftime("%d/%m/%Y - %H:%M:%S"), s, output])
+        return output
 
 while True:
     command = input("Command: ")
