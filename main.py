@@ -35,10 +35,10 @@ def isLetter(k):
 def outputProcess(s, type):
     if(type == 1):
         try:
-            g = open("result.txt", "w")
+            g = open("result.txt", "w", encoding="Latin-1")
         except:
             g = open("result.txt", "x")
-            g = open("result.txt", "w")
+            g = open("result.txt", "w", encoding="Latin-1")
         g.write(s)
         g.close
         print("Done!")
@@ -114,7 +114,7 @@ while True:
         contentBool = True
         if(commandList[1] == "1"):
             try:
-                f = open(commandList[2], "r", encoding="utf-8")
+                f = open(commandList[2], "r", encoding="Latin-1")
                 content = f.read()
                 f.close()
             except:
